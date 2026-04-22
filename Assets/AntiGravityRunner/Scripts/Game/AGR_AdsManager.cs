@@ -116,8 +116,7 @@ public class AGR_AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IU
 
         if (Advertisement.isInitialized)
         {
-            wantToShowInterstitial = true;
-            Advertisement.Load(interstitialAdUnit, this);
+            Advertisement.Show(interstitialAdUnit, this);
         }
         else
         {
@@ -137,8 +136,7 @@ public class AGR_AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IU
 
         if (Advertisement.isInitialized)
         {
-            wantToShowRewarded = true;
-            Advertisement.Load(rewardedAdUnit, this);
+            Advertisement.Show(rewardedAdUnit, this);
         }
 
         // FOR TESTING: Simulate ad completion after 1 second
@@ -206,20 +204,6 @@ public class AGR_AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IU
         if (adUnitId == rewardedAdUnit)
         {
             rewardedAdReady = true;
-        }
-
-        // Show the ad ONLY if we explicitly requested it
-        if (adUnitId == interstitialAdUnit && wantToShowInterstitial)
-        {
-            wantToShowInterstitial = false;
-            Debug.Log("AGR_AdsManager: Showing interstitial now!");
-            Advertisement.Show(interstitialAdUnit, this);
-        }
-        else if (adUnitId == rewardedAdUnit && wantToShowRewarded)
-        {
-            wantToShowRewarded = false;
-            Debug.Log("AGR_AdsManager: Showing rewarded ad now!");
-            Advertisement.Show(rewardedAdUnit, this);
         }
     }
 
