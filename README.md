@@ -2,6 +2,11 @@
 
 A dark, neon-themed endless runner built in Unity. Run. Jump. Survive.
 
+<p align="center">
+  <!-- 💡 Replace the link below with your own gameplay GIF or image once you record it! -->
+  <img src="https://via.placeholder.com/600x300.png?text=Add+Gameplay+GIF+Here" alt="Gravi Gameplay Demo">
+</p>
+
 ## 🎮 Features
 
 - **Endless Running** — Procedurally generated obstacles with increasing difficulty
