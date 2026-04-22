@@ -22,7 +22,7 @@ public class AGR_AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IU
 {
     [Header("Ad Settings")]
     [Tooltip("Show interstitial ad every N deaths")]
-    [SerializeField] private int deathsPerInterstitial = 5;
+    [SerializeField] private int deathsPerInterstitial = 10;
 
     [Header("Game IDs — REPLACE WITH YOUR OWN!")]
     [SerializeField] private string androidGameId = "6090767";
