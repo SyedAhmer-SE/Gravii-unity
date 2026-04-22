@@ -150,40 +150,40 @@ public class AGR_MainMenuUI : MonoBehaviour
 
         // Title
         CreateText(settingsPanel.transform, "SettingsTitle", "S E T T I N G S",
-            new Vector2(0, 200), new Vector2(400, 60), 40, new Color(0f, 1f, 1f));
+            new Vector2(0, 260), new Vector2(400, 60), 40, new Color(0f, 1f, 1f));
 
         // Decorative line
-        CreateAccentLine(settingsPanel.transform, new Vector2(0, 172), new Vector2(200, 1), new Color(0f, 1f, 1f, 0.4f));
+        CreateAccentLine(settingsPanel.transform, new Vector2(0, 220), new Vector2(200, 1), new Color(0f, 1f, 1f, 0.4f));
 
         // --- CONTROL TYPE ---
         CreateText(settingsPanel.transform, "ControlLabel", "Controls:",
-            new Vector2(-100, 160), new Vector2(200, 40), 22, Color.white);
+            new Vector2(-100, 170), new Vector2(200, 40), 22, Color.white);
 
         controlTypeText = CreateText(settingsPanel.transform, "ControlValue",
             AGR_SettingsManager.CurrentControl.ToString(),
-            new Vector2(80, 160), new Vector2(150, 40), 22, new Color(0f, 1f, 0.5f)).GetComponent<Text>();
+            new Vector2(80, 170), new Vector2(150, 40), 22, new Color(0f, 1f, 0.5f)).GetComponent<Text>();
 
         // Control type buttons: < >
         CreateMenuButton(settingsPanel.transform, "CtrlPrev", "◀",
-            new Vector2(0, 160), new Vector2(40, 40),
+            new Vector2(0, 170), new Vector2(40, 40),
             new Color(0.3f, 0.3f, 0.4f), new Color(0.4f, 0.4f, 0.55f), OnControlPrev);
 
         CreateMenuButton(settingsPanel.transform, "CtrlNext", "▶",
-            new Vector2(160, 160), new Vector2(40, 40),
+            new Vector2(160, 170), new Vector2(40, 40),
             new Color(0.3f, 0.3f, 0.4f), new Color(0.4f, 0.4f, 0.55f), OnControlNext);
 
         // --- ORIENTATION MODE ---
         CreateText(settingsPanel.transform, "OrientLabel", "Orientation:",
-            new Vector2(0, 120), new Vector2(300, 35), 20, new Color(0.7f, 0.7f, 0.8f));
+            new Vector2(0, 110), new Vector2(300, 35), 20, new Color(0.7f, 0.7f, 0.8f));
 
         // Two toggle cards: Landscape | Portrait
         CreateOrientCard(settingsPanel.transform, "LandscapeCard",
-            "▬  Landscape", new Vector2(-70, 82),
+            "▬  Landscape", new Vector2(-80, 60),
             out landscapeCardBg, out landscapeCardBorder, out landscapeCardText,
             () => OnOrientSelected(AGR_SettingsManager.OrientationMode.Landscape));
 
         CreateOrientCard(settingsPanel.transform, "PortraitCard",
-            "▯  Portrait", new Vector2(70, 82),
+            "▯  Portrait", new Vector2(80, 60),
             out portraitCardBg, out portraitCardBorder, out portraitCardText,
             () => OnOrientSelected(AGR_SettingsManager.OrientationMode.Portrait));
 
@@ -192,47 +192,47 @@ public class AGR_MainMenuUI : MonoBehaviour
 
         // --- SWIPE SENSITIVITY ---
         CreateText(settingsPanel.transform, "SwipeLabel", "Swipe Sensitivity:",
-            new Vector2(0, 90), new Vector2(350, 35), 20, Color.white);
+            new Vector2(0, 0), new Vector2(350, 35), 20, Color.white);
 
         swipeSensSlider = CreateSlider(settingsPanel.transform, "SwipeSlider",
-            new Vector2(0, 55), 0.2f, 3f, AGR_SettingsManager.SwipeSensitivity);
+            new Vector2(0, -40), 0.2f, 3f, AGR_SettingsManager.SwipeSensitivity);
         swipeSensSlider.onValueChanged.AddListener(OnSwipeSensChanged);
 
         swipeSensLabel = CreateText(settingsPanel.transform, "SwipeVal",
             AGR_SettingsManager.SwipeSensitivity.ToString("F1"),
-            new Vector2(170, 55), new Vector2(60, 30), 18, Color.yellow).GetComponent<Text>();
+            new Vector2(170, -40), new Vector2(60, 30), 18, Color.yellow).GetComponent<Text>();
 
         // --- GYRO SENSITIVITY ---
         CreateText(settingsPanel.transform, "GyroLabel", "Gyro Sensitivity:",
-            new Vector2(0, 0), new Vector2(350, 35), 20, Color.white);
+            new Vector2(0, -90), new Vector2(350, 35), 20, Color.white);
 
         gyroSensSlider = CreateSlider(settingsPanel.transform, "GyroSlider",
-            new Vector2(0, -35), 0.5f, 4f, AGR_SettingsManager.GyroSensitivity);
+            new Vector2(0, -130), 0.5f, 4f, AGR_SettingsManager.GyroSensitivity);
         gyroSensSlider.onValueChanged.AddListener(OnGyroSensChanged);
 
         gyroSensLabel = CreateText(settingsPanel.transform, "GyroVal",
             AGR_SettingsManager.GyroSensitivity.ToString("F1"),
-            new Vector2(170, -35), new Vector2(60, 30), 18, Color.yellow).GetComponent<Text>();
+            new Vector2(170, -130), new Vector2(60, 30), 18, Color.yellow).GetComponent<Text>();
 
         // --- MUSIC ---
         CreateText(settingsPanel.transform, "MusicLabel", "Music:",
-            new Vector2(-50, -100), new Vector2(200, 35), 22, Color.white);
+            new Vector2(-50, -190), new Vector2(200, 35), 22, Color.white);
 
         musicToggle = CreateToggle(settingsPanel.transform, "MusicToggle",
-            new Vector2(80, -100), AGR_SettingsManager.MusicOn);
+            new Vector2(80, -190), AGR_SettingsManager.MusicOn);
         musicToggle.onValueChanged.AddListener(OnMusicToggled);
 
         // --- SFX (8-Bit Audio) ---
         CreateText(settingsPanel.transform, "SFXLabel", "SFX:",
-            new Vector2(-50, -150), new Vector2(200, 35), 22, Color.white);
+            new Vector2(-50, -250), new Vector2(200, 35), 22, Color.white);
 
         sfxToggle = CreateToggle(settingsPanel.transform, "SFXToggle",
-            new Vector2(80, -150), AGR_SettingsManager.SFXOn);
+            new Vector2(80, -250), AGR_SettingsManager.SFXOn);
         sfxToggle.onValueChanged.AddListener(OnSFXToggled);
 
         // BACK button
         CreateMenuButton(settingsPanel.transform, "BackBtn", "◀  B A C K",
-            new Vector2(0, -210), new Vector2(200, 50),
+            new Vector2(0, -320), new Vector2(200, 50),
             new Color(0.5f, 0.15f, 0.15f), new Color(0.65f, 0.2f, 0.2f), OnBackClicked);
     }
 

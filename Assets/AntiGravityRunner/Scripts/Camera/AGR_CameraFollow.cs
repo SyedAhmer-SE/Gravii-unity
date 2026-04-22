@@ -29,8 +29,8 @@ public class AGR_CameraFollow : MonoBehaviour
     private bool inDangerZoom = false;
     private Vector3 normalOffset;
     private Vector3 dangerOffset;
-    private float normalFOV = 60f;
-    private float dangerFOV = 50f; // Tighter, more intense
+    private float baseNormalFOV = 60f;
+    private float baseDangerFOV = 50f; // Tighter, more intense
     private Camera cam;
 
     void Start()
@@ -52,7 +52,8 @@ public class AGR_CameraFollow : MonoBehaviour
         dangerOffset = new Vector3(offset.x, offset.y - 1.5f, offset.z + 3f); // Closer & lower
         if (cam != null)
         {
-            normalFOV = cam.fieldOfView;
+            baseNormalFOV = cam.fieldOfView;
+            baseDangerFOV = baseNormalFOV - 10f; // Tighter
             cam.nearClipPlane = 1f; // Clip objects that are too close to camera
         }
     }
@@ -78,7 +79,30 @@ public class AGR_CameraFollow : MonoBehaviour
         // Smoothly adjust FOV
         if (cam != null)
         {
-            float targetFOV = inDangerZoom ? dangerFOV : normalFOV;
+            float currentAspect = (float)Screen.width / Screen.height;
+            float adjustedNormalFOV = baseNormalFOV;
+            float adjustedDangerFOV = baseDangerFOV;
+
+            // If in portrait mode (aspect < 1), increase vertical FOV to maintain horizontal visibility
+            if (currentAspect < 1f)
+            {
+                // Target landscape aspect (16:9)
+                float targetAspect = 16f / 9f;
+                
+                // Convert vertical FOV to horizontal FOV based on target aspect
+                float hFOVNormal = 2f * Mathf.Atan(Mathf.Tan(baseNormalFOV * Mathf.Deg2Rad / 2f) * targetAspect);
+                float hFOVDanger = 2f * Mathf.Atan(Mathf.Tan(baseDangerFOV * Mathf.Deg2Rad / 2f) * targetAspect);
+                
+                // Calculate new vertical FOVs to maintain the same horizontal FOV in current aspect
+                adjustedNormalFOV = 2f * Mathf.Atan(Mathf.Tan(hFOVNormal / 2f) / currentAspect) * Mathf.Rad2Deg;
+                adjustedDangerFOV = 2f * Mathf.Atan(Mathf.Tan(hFOVDanger / 2f) / currentAspect) * Mathf.Rad2Deg;
+                
+                // Clamp to prevent extreme distortion on very narrow screens
+                adjustedNormalFOV = Mathf.Clamp(adjustedNormalFOV, 60f, 110f);
+                adjustedDangerFOV = Mathf.Clamp(adjustedDangerFOV, 50f, 100f);
+            }
+
+            float targetFOV = inDangerZoom ? adjustedDangerFOV : adjustedNormalFOV;
             cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, targetFOV, Time.deltaTime * 3f);
         }
 

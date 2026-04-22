@@ -61,29 +61,29 @@ public class AGR_MobileButtons : MonoBehaviour
         float btnSize = 220f;
         float margin = 40f;
 
-        // LEFT <
-        CreateHoldButton("LeftBtn", "<",
+        // LEFT ◄
+        CreateHoldButton("LeftBtn", "◄",
             new Vector2(0, 0), new Vector2(0, 0),
             new Vector2(margin + btnSize / 2, margin + btnSize / 2),
             new Vector2(btnSize, btnSize),
             true, false);
 
-        // RIGHT >
-        CreateHoldButton("RightBtn", ">",
+        // RIGHT ►
+        CreateHoldButton("RightBtn", "►",
             new Vector2(0, 0), new Vector2(0, 0),
             new Vector2(margin * 2 + btnSize * 1.5f, margin + btnSize / 2),
             new Vector2(btnSize, btnSize),
             false, true);
 
-        // JUMP ^
-        CreateTapButton("JumpBtn", "^",
+        // JUMP ▲
+        CreateTapButton("JumpBtn", "▲",
             new Vector2(1, 0), new Vector2(1, 0),
             new Vector2(-(margin + btnSize / 2), margin + btnSize / 2),
             new Vector2(btnSize, btnSize),
             true);
 
-        // FALL v
-        CreateTapButton("FallBtn", "v",
+        // FALL ▼
+        CreateTapButton("FallBtn", "▼",
             new Vector2(1, 0), new Vector2(1, 0),
             new Vector2(-(margin * 2 + btnSize * 1.5f), margin + btnSize / 2),
             new Vector2(btnSize, btnSize),
@@ -98,6 +98,7 @@ public class AGR_MobileButtons : MonoBehaviour
         HoldHandler handler = btnObj.AddComponent<HoldHandler>();
         handler.isLeft = isLeft;
         handler.isRight = isRight;
+        handler.img = btnObj.GetComponent<Image>();
     }
 
     private void CreateTapButton(string name, string label,
@@ -107,6 +108,7 @@ public class AGR_MobileButtons : MonoBehaviour
         GameObject btnObj = CreateButtonBase(name, label, anchorMin, anchorMax, pos, size);
         TapHandler handler = btnObj.AddComponent<TapHandler>();
         handler.isJump = isJump;
+        handler.img = btnObj.GetComponent<Image>();
     }
 
     private GameObject CreateButtonBase(string name, string label,
@@ -123,7 +125,8 @@ public class AGR_MobileButtons : MonoBehaviour
         rt.sizeDelta = size;
 
         Image img = btnObj.AddComponent<Image>();
-        img.color = new Color(1f, 1f, 1f, 0.25f);
+        img.sprite = Resources.GetBuiltinResource<Sprite>("UI/Skin/Knob.psd");
+        img.color = new Color(0.1f, 0.1f, 0.1f, 0.6f);
 
         GameObject textObj = new GameObject("Label");
         textObj.transform.SetParent(btnObj.transform, false);
@@ -134,10 +137,14 @@ public class AGR_MobileButtons : MonoBehaviour
         trt.offsetMax = Vector2.zero;
         Text txt = textObj.AddComponent<Text>();
         txt.text = label;
-        txt.fontSize = 100;
+        txt.fontSize = 90;
         txt.alignment = TextAnchor.MiddleCenter;
-        txt.color = Color.white;
+        txt.color = new Color(1f, 1f, 1f, 0.95f);
         txt.font = Font.CreateDynamicFontFromOSFont("Arial", 100);
+
+        Outline outline = textObj.AddComponent<Outline>();
+        outline.effectColor = new Color(0, 0, 0, 0.8f);
+        outline.effectDistance = new Vector2(2, -2);
 
         return btnObj;
     }
@@ -146,23 +153,33 @@ public class AGR_MobileButtons : MonoBehaviour
 public class HoldHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     public bool isLeft, isRight;
+    public Image img;
+    private Color normalColor = new Color(0.1f, 0.1f, 0.1f, 0.6f);
+    private Color pressedColor = new Color(0.3f, 0.6f, 1.0f, 0.8f);
 
     public void OnPointerDown(PointerEventData e)
     {
         if (isLeft) AGR_MobileButtons.leftHeld = true;
         if (isRight) AGR_MobileButtons.rightHeld = true;
+        if (img != null) img.color = pressedColor;
+        transform.localScale = new Vector3(0.9f, 0.9f, 1f);
     }
 
     public void OnPointerUp(PointerEventData e)
     {
         if (isLeft) AGR_MobileButtons.leftHeld = false;
         if (isRight) AGR_MobileButtons.rightHeld = false;
+        if (img != null) img.color = normalColor;
+        transform.localScale = Vector3.one;
     }
 }
 
-public class TapHandler : MonoBehaviour, IPointerDownHandler
+public class TapHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     public bool isJump;
+    public Image img;
+    private Color normalColor = new Color(0.1f, 0.1f, 0.1f, 0.6f);
+    private Color pressedColor = new Color(0.3f, 1.0f, 0.5f, 0.8f);
 
     public void OnPointerDown(PointerEventData e)
     {
@@ -170,5 +187,14 @@ public class TapHandler : MonoBehaviour, IPointerDownHandler
             AGR_MobileButtons.jumpPressed = true;
         else
             AGR_MobileButtons.fallPressed = true;
+            
+        if (img != null) img.color = pressedColor;
+        transform.localScale = new Vector3(0.9f, 0.9f, 1f);
+    }
+
+    public void OnPointerUp(PointerEventData e)
+    {
+        if (img != null) img.color = normalColor;
+        transform.localScale = Vector3.one;
     }
 }
