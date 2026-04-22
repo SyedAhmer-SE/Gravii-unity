@@ -699,10 +699,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36c85871f269d154eace442b1d447141, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deathsPerInterstitial: 1
+  deathsPerInterstitial: 6
   androidGameId: 6090767
   iosGameId: YOUR_IOS_GAME_ID
-  testMode: 0
 --- !u!4 &807235719
 Transform:
   m_ObjectHideFlags: 0
